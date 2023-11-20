@@ -44,7 +44,7 @@ hasło3
 
 ```
 python brute_force.py
-Podaj nazwę użytkownika: 100041219380500@gmail.com
+Podaj nazwę użytkownika: ...@gmail.com
 Podaj nazwę pliku z listą haseł: hasła.txt
 ```
 
