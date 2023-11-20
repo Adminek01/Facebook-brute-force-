@@ -19,6 +19,10 @@ def brute_force(username, password):
         print("Niepoprawna nazwa użytkownika.")
         return False
 
+    if not re.match(r'^[a-zA-Z0-9_.+-]+$', password):
+        print("Niepoprawne hasło.")
+        return False
+
     print("Znaleziono hasło:", password)
     return True
 
@@ -35,5 +39,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
