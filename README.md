@@ -1,8 +1,8 @@
 # Facebook-brute-force-
 Brute force Facebook "używajcie w calch edukacji" nie ponoszę odpowiedźi
 
-
-
+Program jest cały czas w rozwoju i udoskonalania proszę o zrozumienie 
+_____________________________________________
 **Jak użyć programu**
 
 Aby użyć programu, musisz umieścić go w katalogu domowym i uruchomić go w następujący sposób:
