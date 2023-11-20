@@ -17,13 +17,13 @@ Program poprosi Cię o podanie nazwy użytkownika i listy haseł. Możesz podać
 
 ```
 python brute_force.py
-Podaj nazwę użytkownika: 100041219380500@gmail.com
+Podaj nazwę użytkownika: ...@gmail.com
 ```
 
 **Użycie polecenia whois:**
 
 ```
-whois 100041219380500@gmail.com
+whois ...@gmail.com
 ```
 
 Skopiuj nazwę użytkownika z wyników polecenia whois i wprowadź ją do programu.
