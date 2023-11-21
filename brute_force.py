@@ -16,38 +16,21 @@ def brute_force(username, password, fb_id):
         return False
 
     if not re.match(r'^[0-9]+$', fb_id):
-        print("Nieprawidłowy identyfikator Facebook.")
+        print("Nieprawidłowy identyfikator Facebooka.")
         return False
 
     print("Znaleziono hasło:", password)
     return True
 
 def main():
-    username = input("Podaj nazwę użytkownika: ")
-    fb_id = input("Podaj identyfikator Facebook: ")
+    # Tutaj możesz wprowadzić swoje własne dane logowania
+    username = "twoja_nazwa_użytkownika"
+    password = "twoje_hasło"
+    fb_id = "twój_id_facebooka"
 
-    # Check if the username is a string
-    if not isinstance(username, str):
-        print("Niepoprawna nazwa użytkownika.")
-        return
+    brute_force(username, password, fb_id)
 
-    # Check if the fb_id is a string
-    if not isinstance(fb_id, str):
-        print("Nieprawidłowy identyfikator Facebook.")
-        return
-
-    password_list = ["hasło1", "hasło2", "hasło3", ...]
-
-    # Check each password in the list
-    for password in password_list:
-        if brute_force(username, password, fb_id):
-            break
-
-    else:
-        print("Nie znaleziono hasła.")
-
-if __name__ == "__main__":
-    main()
+main()
 
 
 
