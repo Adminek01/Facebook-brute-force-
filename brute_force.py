@@ -23,7 +23,7 @@ def brute_force(username, password, fb_id):
     return True
 
 def main():
-    # Tutaj możesz wprowadzić swoje własne dane logowania
+    # Replace the placeholders with your actual Facebook account information
     username = "twoja_nazwa_użytkownika"
     password = "twoje_hasło"
     fb_id = "twój_id_facebooka"
@@ -31,6 +31,7 @@ def main():
     brute_force(username, password, fb_id)
 
 main()
+
 
 
 
