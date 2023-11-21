@@ -19,7 +19,7 @@ def brute_force(username, password):
         print("Niepoprawna nazwa użytkownika.")
         return False
 
-    if not isinstance(password, str):
+    if not re.match(r'^[a-zA-Z0-9_.+-]+$', password):
         print("Niepoprawne hasło.")
         return False
 
@@ -28,19 +28,9 @@ def brute_force(username, password):
 
 def main():
     username = input("Podaj nazwę użytkownika: ")
-
-    # Check if the username is a string
-    if not isinstance(username, str):
-        print("Niepoprawna nazwa użytkownika.")
-        return
-
     password_list = ["hasło1", "hasło2", "hasło3", ...]
 
-    # Check each password in the list
     for password in password_list:
-        if not isinstance(password, str):
-            continue
-
         if brute_force(username, password):
             break
 
