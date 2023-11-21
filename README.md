@@ -12,11 +12,7 @@ Aby użyć programu, musisz umieścić go w katalogu domowym i uruchomić go w n
 ```
 python brute_force.py
 ```
-dodałem usługę vpn 
 
-proxychains4 python3 brute_force.py
-
-musicie zainstalować proxychains4 w Kali linux 
 
 
 Program poprosi Cię o podanie nazwy użytkownika i listy haseł. Możesz podać nazwę użytkownika ręcznie lub skorzystać z polecenia `whois`.
