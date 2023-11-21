@@ -1,3 +1,4 @@
+import requests
 import pdb
 
 def brute_force(username, fb_id, passwords):
