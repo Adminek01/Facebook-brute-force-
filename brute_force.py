@@ -19,7 +19,7 @@ def brute_force(username, password):
         print("Niepoprawna nazwa użytkownika.")
         return False
 
-    if notisinstance(password, str):
+    if not isinstance(password, str):
         print("Niepoprawne hasło.")
         return False
 
@@ -49,6 +49,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
