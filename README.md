@@ -2,6 +2,8 @@
 Brute force Facebook "używajcie w calch edukacji" nie ponoszę odpowiedźi
 
 Program jest cały czas w rozwoju i udoskonalania proszę o zrozumienie 
+
+zalecam częsta reinstalacji cały czas udoskonalania programu 
 _____________________________________________
 **Jak użyć programu**
 
