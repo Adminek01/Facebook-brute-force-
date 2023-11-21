@@ -1,4 +1,4 @@
-import requests
+import requests  # Dodaj tę linię
 import time
 import random
 import re
@@ -33,10 +33,10 @@ def main():
     # Pobierz dane użytkownika
     username = input('Podaj nazwę użytkownika: ')
     fb_id = input('Podaj identyfikator Facebooka: ')
-    
+
     # Pobierz nazwę pliku z listą haseł
     filename = input('Podaj nazwę pliku z listą haseł: ')
-    
+
     # Wczytaj listę haseł z pliku
     passwords = read_passwords_from_file(filename)
 
@@ -45,6 +45,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
 
 
 
