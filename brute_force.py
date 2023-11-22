@@ -20,7 +20,7 @@ def brute_force(username, fb_id, passwords):
                    'https': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}'}
         
         try:
-            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}',
+            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ}',
                                   proxies=proxies, timeout=10, auth=shodan_proxy_auth)
             # Process Shodan result as needed
             print(result.text)
