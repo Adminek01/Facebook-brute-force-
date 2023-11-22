@@ -2,7 +2,7 @@ import requests
 import time
 import random
 import threading
-import shodan
+from requests.auth import HTTPProxyAuth
 
 # Shodan API Key (replace 'YOUR_SHODAN_API_KEY' with your actual API key)
 SHODAN_API_KEY = 'XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ'
@@ -10,23 +10,22 @@ SHODAN_API_KEY = 'XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ'
 # Shodan proxy details (replace placeholders with actual values)
 shodan_proxy_ip = "34.28.27.73"
 shodan_proxy_port = "1080"
-proxies = {'http': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}', 'https': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}'}
-
-# Shodan setup
-api = shodan.Shodan(SHODAN_API_KEY)
+shodan_proxy_auth = HTTPProxyAuth('your_proxy_username', 'your_proxy_password')  # If your proxy requires authentication
 
 # Function to perform brute force attack
 def brute_force(username, fb_id, passwords):
-    total_passwords = len(passwords)
-    for i, password in enumerate(passwords, start=1):
-        # Use Shodan as a proxy for making requests
+    for password in passwords:
+        # Use the requests library with SOCKS proxy
+        proxies = {'http': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}',
+                   'https': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}'}
+        
         try:
-            # Use requests library to make requests through a proxy
-            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}', proxies=proxies)
+            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}',
+                                  proxies=proxies, timeout=10, auth=shodan_proxy_auth)
             # Process Shodan result as needed
-            print(f"Attempt {i}/{total_passwords}: {result.text}")
+            print(result.text)
         except requests.exceptions.RequestException as e:
-            print(f"Attempt {i}/{total_passwords}: Request Error - {e}")
+            print(f"Request Error: {e}")
         
         # Rest of your brute-force logic
         # ...
