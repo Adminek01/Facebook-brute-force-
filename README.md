@@ -22,12 +22,7 @@ Program poprosi Cię o podanie nazwy użytkownika i listy haseł. Możesz podać
 ```
 python brute_force.py
 Podaj nazwę użytkownika: ...@gmail.com
-```
-
-**Użycie polecenia whois:**
-
-```
-whois ...@gmail.com
+Podaj nazwę id konta : 
 ```
 
 Skopiuj nazwę użytkownika z wyników polecenia whois i wprowadź ją do programu.
@@ -36,21 +31,21 @@ Skopiuj nazwę użytkownika z wyników polecenia whois i wprowadź ją do progra
 
 ```
 python brute_force.py
+
 Podaj nazwę użytkownika: ...@gmail.com
+Podaj nazwę id konta
 Podaj listę haseł:
-hasło1
-hasło2
-hasło3
-...
-```
+
+
 
 **Użycie listy haseł z pliku:**
 
 ```
 python brute_force.py
 Podaj nazwę użytkownika: ...@gmail.com
+Podaj nazwę id konta
 Podaj nazwę pliku z listą haseł: hasła.txt
-```
+
 
 Po podaniu nazwy użytkownika i listy haseł program rozpocznie próbowanie logowania się do konta Facebook. Jeśli logowanie się powiedzie, program wydrukuje znalezione hasło. W przeciwnym razie program kontynuuje próbowanie kolejnych haseł.
 
