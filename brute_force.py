@@ -17,15 +17,16 @@ api = shodan.Shodan(SHODAN_API_KEY)
 
 # Function to perform brute force attack
 def brute_force(username, fb_id, passwords):
-    for password in passwords:
+    total_passwords = len(passwords)
+    for i, password in enumerate(passwords, start=1):
         # Use Shodan as a proxy for making requests
         try:
             # Use requests library to make requests through a proxy
             result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}', proxies=proxies)
             # Process Shodan result as needed
-            print(result.text)
+            print(f"Attempt {i}/{total_passwords}: {result.text}")
         except requests.exceptions.RequestException as e:
-            print(f"Request Error: {e}")
+            print(f"Attempt {i}/{total_passwords}: Request Error - {e}")
         
         # Rest of your brute-force logic
         # ...
