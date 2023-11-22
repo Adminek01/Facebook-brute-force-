@@ -1,7 +1,3 @@
-import requests
-import time
-import random
-import threading
 import shodan
 
 # Shodan API Key (replace 'YOUR_SHODAN_API_KEY' with your actual API key)
