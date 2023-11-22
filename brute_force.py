@@ -1,3 +1,7 @@
+import requests
+import time
+import random
+import threading
 import shodan
 
 # Shodan API Key (replace 'YOUR_SHODAN_API_KEY' with your actual API key)
@@ -16,11 +20,12 @@ def brute_force(username, fb_id, passwords):
     for password in passwords:
         # Use Shodan as a proxy for making requests
         try:
-            result = api.search(f'username={username} password={password}', proxies=proxies)
+            # Use requests library to make requests through a proxy
+            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}', proxies=proxies)
             # Process Shodan result as needed
-            print(result)
-        except shodan.exception.APIError as e:
-            print(f"Shodan API Error: {e}")
+            print(result.text)
+        except requests.exceptions.RequestException as e:
+            print(f"Request Error: {e}")
         
         # Rest of your brute-force logic
         # ...
@@ -44,3 +49,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
