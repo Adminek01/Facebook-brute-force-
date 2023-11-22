@@ -4,25 +4,23 @@ import random
 import threading
 from requests.auth import HTTPProxyAuth
 
-# Shodan API Key (replace 'YOUR_SHODAN_API_KEY' with your actual API key)
-SHODAN_API_KEY = 'XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ'
+# Tor proxy details
+tor_proxy_ip = "127.0.0.1"
+tor_proxy_port = "9050"
+tor_proxy_auth = HTTPProxyAuth('your_tor_proxy_username', 'your_tor_proxy_password')  # Modify with your Tor proxy credentials if needed
 
-# Shodan proxy details (replace placeholders with actual values)
-shodan_proxy_ip = "34.28.27.73"
-shodan_proxy_port = "1080"
-shodan_proxy_auth = HTTPProxyAuth('', '')  # Leave empty if your proxy doesn't require authentication
-
-# Function to perform brute force attack
+# Function to perform brute force attack using Tor as a proxy
 def brute_force(username, fb_id, passwords):
     for password in passwords:
         # Use the requests library with SOCKS proxy
-        proxies = {'http': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}',
-                   'https': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}'}
+        proxies = {'http': f'socks5h://{tor_proxy_ip}:{tor_proxy_port}',
+                   'https': f'socks5h://{tor_proxy_ip}:{tor_proxy_port}'}
 
         try:
-            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}',
-                                  proxies=proxies, timeout=10, auth=shodan_proxy_auth)
-            # Process Shodan result as needed
+            # Example: Make a request to Shodan using Tor as a proxy
+            result = requests.get(f'https://api.shodan.io/shodan/host/{tor_proxy_ip}?key=YOUR_SHODAN_API_KEY',
+                                  proxies=proxies, timeout=10, auth=tor_proxy_auth)
+            # Process result as needed
             print(result.text)
         except requests.exceptions.RequestException as e:
             print(f"Request Error: {e}")
