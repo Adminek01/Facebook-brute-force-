@@ -10,7 +10,7 @@ SHODAN_API_KEY = 'XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ'
 # Shodan proxy details (replace placeholders with actual values)
 shodan_proxy_ip = "34.28.27.73"
 shodan_proxy_port = "1080"
-shodan_proxy_auth = HTTPProxyAuth('your_proxy_username', 'your_proxy_password')  # If your proxy requires authentication
+shodan_proxy_auth = HTTPProxyAuth('', '')  # Leave empty if your proxy doesn't require authentication
 
 # Function to perform brute force attack
 def brute_force(username, fb_id, passwords):
@@ -18,15 +18,15 @@ def brute_force(username, fb_id, passwords):
         # Use the requests library with SOCKS proxy
         proxies = {'http': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}',
                    'https': f'socks5://{shodan_proxy_ip}:{shodan_proxy_port}'}
-        
+
         try:
-            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={XQ6vfJzTek01BYFX1f7WQbK9L0AmSRRZ}',
+            result = requests.get(f'https://api.shodan.io/shodan/host/{shodan_proxy_ip}?key={SHODAN_API_KEY}',
                                   proxies=proxies, timeout=10, auth=shodan_proxy_auth)
             # Process Shodan result as needed
             print(result.text)
         except requests.exceptions.RequestException as e:
             print(f"Request Error: {e}")
-        
+
         # Rest of your brute-force logic
         # ...
 
@@ -49,4 +49,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
