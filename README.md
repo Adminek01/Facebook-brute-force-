@@ -12,7 +12,23 @@ Aby użyć programu, musisz umieścić go w katalogu domowym i uruchomić go w n
 ```
 python brute_force.py
 ```
+(rootkalpython3 brute_force.py                                 
+---------- Welcome To Facebook BruteForce ----------
 
+Password file is not exist:  passwords.txt
+(rootkali)-[~/Facebook-brute-force-]
+# ls
+LICENSE    app.py          password.txt
+README.md  brute_force.py  update.py
+(rootkali)-[~/Facebook-brute-force-]
+# mv password.txt passwords.txt
+(rootkali)-[~/Facebook-brute-force-]
+# python3 brute_force.py
+
+---------- Welcome To Facebook BruteForce ----------
+
+Password file selected:  passwords.txt
+Enter Email/Username to target:
 _____________________________________________
 
 
