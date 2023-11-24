@@ -42,7 +42,7 @@ def banner(argv, usage=False, url=None, emails=None):
               url + " with emails: " + str(emails) + "" + bcolors.ENDC)
 
 def send_request(url, data):
-    req = requests.post(url, data)
+    req = requests.post(url, data.encode('utf-8'))
     rsp = req.content.decode('utf-8')
     return rsp
 
