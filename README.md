@@ -1,4 +1,4 @@
-### Opis programu:
+### Opis programu: trzeba często reinstalować program 
 
 Program jest narzędziem do przeprowadzania ataku brute force na strony logowania Facebooka. Wykorzystuje listę haseł z pliku tekstowego do prób logowania dla podanych adresów e-mail. W przypadku poprawnego odgadnięcia kombinacji e-mail/hasło, program kończy działanie, wypisując odnalezione dane logowania.
 
