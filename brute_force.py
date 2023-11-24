@@ -90,7 +90,7 @@ if __name__ == '__main__':
 
     entries = []
     for email in emails:
-        print("Enter email address (as username):", email)
+        print(f"Enter email address (as username): {email}")
         facebook_id = input("Enter Facebook ID:")
         password_file = input("Enter the password file name:")
         print("")
