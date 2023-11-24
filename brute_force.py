@@ -1,9 +1,11 @@
 import time
 import requests
 import sys
+import random
 
 WAIT_TIME = 5
 PASSWD_PER_REQUEST = 1000
+DELAY_RANGE = (2, 5)
 
 class bcolors:
     HEADER = '\033[95m'
